@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import axios from 'axios';
-import UserList from './components/User.js';
+import AuthorList from './components/Author.js';
 import MainMenu from './components/Menu.js';
 import Footer from './components/Footer.js';
 
@@ -10,16 +10,39 @@ class App extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      'users': []
+      'authors': []
     }
   }
+
+//  componentDidMount() {
+//  const authors = [
+//        {
+//            'first_name': 'Genry',
+//            'last_name': 'Ford',
+//            'birthday_year': '1863',
+//            'email': '@Genry',
+//        },
+//        {
+//            'first_name': 'Enzo',
+//            'last_name': 'Ferrari',
+//            'birthday_year': '1898',
+//            'email': '@Enzo',
+//        },
+//    ]
+//     this.setState(
+//            {
+//            'authors': authors
+//        }
+//     )
+//  }
+
   componentDidMount() {
-    axios.get('http://127.0.0.1:8000/api/users')
+    axios.get('http://127.0.0.1:8000/api/authors')
       .then(response => {
-        const users = response.data
+        const authors = response.data
         this.setState(
           {
-            'users': users
+            'authors': authors
           }
         )
       }).catch(error => console.log(error))
@@ -31,7 +54,7 @@ class App extends React.Component {
           <MainMenu />
         </nav>
         <div>
-          <UserList users={this.state.users} />
+          <AuthorList authors={this.state.authors} />
         </div>
         <footer>
           <Footer />

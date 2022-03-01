@@ -1,31 +1,29 @@
 import React from 'react';
 
 
-const UserItem = ({ user }) => {
+const AuthorItem = ({ author }) => {
     return (
         <tr>
+
             <td>
-                {user.username}
+                {author.first_name}
             </td>
             <td>
-                {user.first_name}
+                {author.last_name}
             </td>
             <td>
-                {user.last_name}
+                {author.birthday_year}
             </td>
             <td>
-                {user.email}
+                {author.email}
             </td>
         </tr>
     )
 }
 
-const UserList = ({ users }) => {
+const AuthorList = ({ authors }) => {
     return (
         <table>
-            <th>
-                User Name
-            </th>
             <th>
                 First name
             </th>
@@ -33,12 +31,15 @@ const UserList = ({ users }) => {
                 Last Name
             </th>
             <th>
+                Birthday year
+            </th>
+            <th>
                 Email
             </th>
-            {users.map((user) => <UserItem user={user} />)}
+            {authors.map((author) => <AuthorItem author={author} />)}
         </table>
     )
 }
 
 
-export default UserList;
+export default AuthorList;
