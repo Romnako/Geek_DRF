@@ -14,27 +14,6 @@ class App extends React.Component {
     }
   }
 
-//  componentDidMount() {
-//  const authors = [
-//        {
-//            'first_name': 'Genry',
-//            'last_name': 'Ford',
-//            'birthday_year': '1863',
-//            'email': '@Genry',
-//        },
-//        {
-//            'first_name': 'Enzo',
-//            'last_name': 'Ferrari',
-//            'birthday_year': '1898',
-//            'email': '@Enzo',
-//        },
-//    ]
-//     this.setState(
-//            {
-//            'authors': authors
-//        }
-//     )
-//  }
 
   componentDidMount() {
     axios.get('http://127.0.0.1:8000/api/authors')

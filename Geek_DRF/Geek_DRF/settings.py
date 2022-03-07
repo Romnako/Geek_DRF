@@ -20,7 +20,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '=-b5s9-ar+0-pnlmm(mj$e2a=!nr97_(zjjxgn4%d&*!w1ku20'
+SECRET_KEY = "django-insecure-^leh$tw&q2s9upi%l!m-06p88yftpp4tan07g7m-i4cj7s_9qu"
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'authors',
     'rest_framework',
     'corsheaders',
+    'todoapp'
+    'django-filters'
 ]
 
 # Auth model
@@ -116,8 +118,6 @@ TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
-USE_L10N = True
-
 USE_TZ = True
 
 
@@ -134,3 +134,11 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_RENDERER_CLASSES': [
+        #'rest_framework.renderers.StaticHTMLRenderer',
+        'rest_framework.renderers.JSONRenderer',
+        'rest_framework.renderers.BrowsableAPIRenderer',
+    ]
+}
