@@ -2,6 +2,7 @@ from django.db import models
 from authors.models import Author
 
 
+
 class Project(models.Model):
     name = models.CharField(max_length=32, unique=True)
     authors = models.ManyToManyField(Author)

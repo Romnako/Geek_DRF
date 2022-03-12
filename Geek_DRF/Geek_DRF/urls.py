@@ -20,16 +20,19 @@ from authors.views import AuthorModelViewSet, ArticleModeViewSet, BiographyModel
 from todoapp.views import ToDoViewSet, ProjectViewSet
 
 
-router = DefaultRouter
+router = DefaultRouter()
 router.register('Authors', AuthorModelViewSet)
 router.register('Article', ArticleModeViewSet)
 router.register('Biography', BiographyModelViewset)
 router.register('Book', BookModelViewSet)
 router.register('todos', ToDoViewSet)
 router.register('projects', ProjectViewSet)
+router.register('test', AuthorModelViewSet, basename='lal')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls')),
     path('api/', include(router.urls)),
+    path('testview/', AuthorModelViewSet.as_view()),
+    # path('test/<str:name>', AuthorModelViewSet.as_view())
 ]
