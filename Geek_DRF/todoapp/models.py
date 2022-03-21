@@ -2,7 +2,6 @@ from django.db import models
 from authors.models import Author
 
 
-
 class Project(models.Model):
     name = models.CharField(max_length=32, unique=True)
     authors = models.ManyToManyField(Author)
@@ -19,4 +18,3 @@ class ToDo(models.Model):
     update = models.DateTimeField(auto_now=True)
     creator = models.ForeignKey(Author, on_delete=models.PROTECT)
     is_active = models.BooleanField(default=True)
-

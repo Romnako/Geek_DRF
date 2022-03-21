@@ -1,27 +1,28 @@
 import React from 'react';
+import Link from 'react-router-dom'
 
 
-const AuthorItem = ({ author }) => {
+const AuthorItem = ({ item }) => {
     return (
         <tr>
 
             <td>
-                {author.first_name}
+                {item.first_name}
             </td>
             <td>
-                {author.last_name}
+                {item.last_name}
             </td>
             <td>
-                {author.birthday_year}
+                {item.birthday_year}
             </td>
             <td>
-                {author.email}
+                {item.email}
             </td>
         </tr>
     )
 }
 
-const AuthorList = ({ authors }) => {
+const AuthorList = ({ items }) => {
     return (
         <table>
             <th>
@@ -36,7 +37,7 @@ const AuthorList = ({ authors }) => {
             <th>
                 Email
             </th>
-            {authors.map((author) => <AuthorItem author={author} />)}
+            {items.map((item) => <AuthorItem item={item} />)}
         </table>
     )
 }
