@@ -38,8 +38,9 @@ INSTALLED_APPS = [
     'authors',
     'rest_framework',
     'corsheaders',
-    'todoapp'
-    'django-filters'
+    'todoapp',
+    'django-filters',
+    'rest_framework.authtoken'
 ]
 
 # Auth model
@@ -138,7 +139,11 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS':
         'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 100,
-    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'
-                                ],
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
+    'DEFAULT_PERMISSION_CLASSES':['rest_framework.permission.DjangoModelPermissionsOrAnonReadOnly'],
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authenticaion.BasicAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+    ]
 
 }
