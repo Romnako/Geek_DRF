@@ -37,10 +37,12 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'authors',
     'rest_framework',
+    'drf_yasg'
     'corsheaders',
     'todoapp',
     'django-filters',
     'rest_framework.authtoken'
+    'authors'
 ]
 
 # Auth model
@@ -144,6 +146,7 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authenticaion.BasicAuthentication',
         'rest_framework.authentication.TokenAuthentication',
-    ]
+    ],
+    'DEFAULT_VERSIONING_CLASS': 'rest_framework.versioning.AcceptHeaderVersioning',
 
 }
