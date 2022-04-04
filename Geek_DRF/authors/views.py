@@ -48,3 +48,6 @@ class BiographyModelViewset(mixins.ListModelMixin, mixins.RetrieveModelMixin, mi
     queryset = Biography.object.all()
     serializer_class = BiographyModelSerializer
 
+
+
+

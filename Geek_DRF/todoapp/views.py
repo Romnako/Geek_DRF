@@ -40,5 +40,5 @@ class ToDoViewSet(ModelViewSet):
         return Response(serializer.data)
 
     def active_toggle(self, instance):
-        instance.is_active=True
+        instance.is_active = False
 

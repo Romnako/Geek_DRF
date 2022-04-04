@@ -10,8 +10,9 @@
 #     email = models.EmailField(unique=True)
 
 from uuid import uuid4
-
+from django.contrib.auth.models import AbstractUser, UserManager
 from django.db import models
+from uuid import uuid4
 
 
 class Author(models.Model):
@@ -37,3 +38,11 @@ class Book(models.Model):
 class Article(models.Model):
     name = models.CharField(max_length=32)
     author = models.ForeignKey(Author, models.PROTECT)
+
+
+class CustomUser(AbstractUser, UserManager):
+    uuid = UUIDField(primary_key=True, default=uuid4)
+    email = models.EmailField(unique=True)
+
+    class Meta:
+        ordering = ['uuid']
