@@ -37,12 +37,13 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'authors',
     'rest_framework',
-    'drf_yasg'
+    'drf_yasg',
     'corsheaders',
     'todoapp',
     'django-filters',
-    'rest_framework.authtoken'
-    'authors'
+    'rest_framework.authtoken',
+    'graphene_django',
+
 ]
 
 # Auth model
@@ -149,4 +150,8 @@ REST_FRAMEWORK = {
     ],
     'DEFAULT_VERSIONING_CLASS': 'rest_framework.versioning.AcceptHeaderVersioning',
 
+}
+
+GRAPHENE = {
+    "SCHEMA": "Geek_DRF.schema.schema"
 }

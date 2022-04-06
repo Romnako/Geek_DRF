@@ -1,12 +1,23 @@
 from rest_framework.viewsets import ModelViewSet
-from .serializers import ProjectSerializer, ToDoSerializer
-from .models import Project, ToDo
+from .serializers import ProjectSerializer, ToDoSerializer, AuthorSerializer, AuthorSerializerNew
+from .models import Project, ToDo, Author
 from email.policy import default
 from http import server
 from .filters import ProjectFilter, ToDoFilter
 from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.response import Response
 from rest_framework import mixins, viewsets
+
+
+class AuthorViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, mixins.UpdateModelMixin, viewsets.GenericViewSet):
+    serializer_class = AuthorSerializer
+    queryset = Author.objects.all()
+
+    def get_serializer_class(self):
+        if self.request.version == '0.2':
+            return AuthorSerializerNew
+        return AuthorSerializer
+
 
 
 class ProjectLimitOffsetPaginations(LimitOffsetPagination):
