@@ -6,12 +6,13 @@ from http import server
 from .filters import ProjectFilter, ToDoFilter
 from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.response import Response
-from rest_framework import mixins, viewsets
+from rest_framework import mixins, viewsets, permissions
 
 
 class AuthorViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, mixins.UpdateModelMixin, viewsets.GenericViewSet):
     serializer_class = AuthorSerializer
     queryset = Author.objects.all()
+
 
     def get_serializer_class(self):
         if self.request.version == '0.2':
@@ -29,6 +30,7 @@ class ProjectViewSet(ModelViewSet):
     queryset = Project.objects.all()
     filterset_class = ProjectFilter
     pagination_class = ProjectLimitOffsetPaginations
+    permission_classes = [permissions.AllowAny]
 
 
 class ToDoLimitOffsetPaginations(LimitOffsetPagination):
@@ -40,6 +42,7 @@ class ToDoViewSet(ModelViewSet):
     queryset = ToDo.object.all()
     filterset_class = ToDoFilter
     pagination_class = ToDoLimitOffsetPaginations
+    permission_classes = [permissions.IsAuthenticated]
 
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()

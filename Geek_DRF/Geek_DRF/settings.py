@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'drf_yasg',
     'corsheaders',
     'todoapp',
-    'django-filters',
+    'django_filters',
     'rest_framework.authtoken',
     'graphene_django',
 

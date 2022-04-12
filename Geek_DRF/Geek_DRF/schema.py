@@ -4,7 +4,7 @@ from authors.models import Author
 from todoapp.models import ToDo, Project
 
 
-class UserType(DjangoObjectType):
+class AuthorType(DjangoObjectType):
     class Meta:
         model = Author
         fields = '__all__'
