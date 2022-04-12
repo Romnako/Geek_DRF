@@ -11,30 +11,20 @@ import BookList from '/components/Book';
 import Cookies from 'universal-cookie';
 import LoginForm from './components/Auth';
 import { Link } from 'react-router-dom';
-
-
-const NotFound404 = ({ location }) => {
-    return(
-        <div>
-            <hi>Page not found from address '{location.pathname}'</hi>
-        </div>
-    )
-}
-
-
+import ProjectForm from './components/projectForm';
+import ToDoForm from './components/todoForm';
 class App extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
       'authors': [],
-      'books' : [],
       'todos': [],
       'projects': [],
       'token': ''
     }
   }
 
- set_token(token) {
+  set_token(token) {
     const cookies = new Cookies()
     cookies.set('token', token)
     this.setState({'token': token}, ()=>this.load_data())
@@ -72,11 +62,52 @@ class App extends React.Component {
     return headers
   }
 
+  deleteProject(url) {
+    const headers = this.get_headers()
+    axios.delete(`${url}`, {headers})
+    .then(response => {this.setState({projects: this.state.projects.filter((item) => item.url !== url)})})
+  }
+
+  deleteToDo(url) {
+    const headers = this.get_headers()
+    axios.delete(`${url}`, {headers})
+    .then(response => {this.setState({todos: this.state.todos.filter((item) => item.url !== url)})})
+  }
+
+  createProject(name, repository, users) {
+    const headers = this.get_headers()
+    const data = {name: name, repository: repository, users: Array(users)}
+    console.log(data)
+    axios.post(`http://127.0.0.1:8000/api/projects/`, data, {headers})
+        .then(response => {
+          let new_project = response.data
+          console.log(new_project)
+          const users = this.state.users.filter((item) => item.uuid === new_project.users)
+          new_project.users = users
+          this.setState({projects: [...this.state.projects, new_project]})
+          console.log(new_project)
+        }).catch(error => console.log(error))
+  }
+
+  createToDo(project, text, creator) {
+    const headers = this.get_headers()
+    const data = {project: project, text: text, creator: creator}
+    console.log(data)
+    axios.post(`http://127.0.0.1:8000/api/todos/`, data, {headers})
+        .then(response => {
+          let new_todo = response.data
+          const project = this.state.projects.filter((item) => item.url === new_todo.project)[0]
+          const creator = this.state.users.filter((item) => item.uuid === new_todo.user)[0]
+          new_todo.project = project
+          this.setState({todos: [...this.state.todos, new_todo]})
+          console.log(new_todo)
+        }).catch(error => console.log(error))
+  }
 
   load_data() {
 
     const headers = this.get_headers()
-    axios.get('http://127.0.0.1:8000/api/authors/', {headers})
+    axios.get('http://127.0.0.1:8000/api/users/', {headers})
         .then(response => {
             const users = response.data.results
             this.setState({users: users})
@@ -101,51 +132,27 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    axios.get('http://127.0.0.1:8000/api/authors')
-      .then(response => {
-        const authors = response.data
-        this.setState(
-          {
-            'authors': authors
-          }
-        )
-      }).catch(error => console.log(error))
-    axios.get('http://127.0.0.1:8000/api/todos')
-      .then(response => {
-        const todos = response.data.results
-        this.setState(
-          {
-            'todos': todos
-          }
-        )
-      }).catch(error => console.log(error))
+    this.get_token_from_storage()
   }
+
   render() {
     return (
       <div className="App">
         <Router>
           <div>
             <nav>
-              <ul>
-                  <li>
-                    <Link to='/author'>Authors</Link>
-                  </li>
-                  <li>
-                    <Link to='/book'>Books</Link>
-                  </li>
-              </ul>
+              <MainMenu />
+              {this.is_authenticated() ? <button onClick={()=>this.logout()}>Logout</button> : <Link to='/login'>Login</Link>}
             </nav>
-            <Switch>
-                <Routes>
-                  <Route path='/authors' element={<UserList authors={this.state.authors} />} />
-                  <Route path='/books' element={<BookList books={this.state.books} />} />
-                  <Route path='/todos' element={<ToDoList todos={this.state.todos} />} />
-                  <Route path='/projects' element={<ProjectList projects={this.state.projects} />} />
-                  <Route path='/' element={<Navigate replace to="/authors" />} />
-                  <Route path='/login' element={<LoginForm get_token={(username, password) => this.get_token(username, password)} />} />
-                  <Route component={NotFound404} />
-                </Routes>
-            </Switch>
+            <Routes>
+              <Route path='/authors' element={<UserList users={this.state.authors} />} />
+              <Route path='/todos' element={<ToDoList todos={this.state.todos} deleteToDo = {(id) => this.deleteToDo(id)}/>} />
+              <Route path='/projects' element={<ProjectList projects={this.state.projects} deleteProject = {(id) => this.deleteProject(id)}/>} />
+              <Route path='/projects/create' element={<ProjectForm users={this.state.users} createProject={(name, repository, users) => this.createProject(name, repository, users)}/>} />
+              <Route path='/todos/create' element={<ToDoForm users={this.state.users} projects = {this.state.projects}createToDo={(project, text, user) => this.createToDo(project, text, user)}/>} />
+              <Route path='/' element={<Navigate replace to="/users" />} />
+              <Route path='/login' element={<LoginForm get_token={(username, password) => this.get_token(username, password)} />} />
+            </Routes>
           </div>
           <footer>
             <Footer />
