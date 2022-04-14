@@ -23,11 +23,11 @@ class ProjectType(DjangoObjectType):
 
 
 class Query(graphene.ObjectType):
-    all_users = graphene.List(UserType)
+    all_authors = graphene.List(AuthorType)
     all_todos = graphene.List(ToDoType)
     all_projects = graphene.List(ProjectType)
 
-    def resolve_all_users(root, info):
+    def resolve_all_authors(root, info):
         return Author.objects.all()
 
     def resolve_all_todos(root, info):
